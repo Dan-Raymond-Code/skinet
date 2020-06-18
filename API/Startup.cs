@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Data;
+using Core.Interfaces;
 
 namespace API
 {
@@ -15,14 +16,12 @@ namespace API
     public Startup(IConfiguration configuration)
     {
       _configuration = configuration;
-      //Configuration = configuration;
     }
-
-    //public IConfiguration Configuration { get; }
 
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+      services.AddScoped<IProductRepository, ProductRepository>();
       services.AddDbContext<StoreContext>(x => x.UseSqlite(_configuration.GetConnectionString("DefaultConnection")));
       services.AddControllers();
     }
